@@ -33,6 +33,8 @@
                 root: null, // 层级数据根
                 svgWidth: 1080,
                 svgHeight: 720,
+                legend: null,
+                showLegend: false,
             };
         },
         // https://cn.vuejs.org/v2/api/#mounted
@@ -77,25 +79,37 @@
             'options.titleBackground': {
                 handler() {
                     this.titleBackground = this.options.titleBackground;
-                    console.log('background', this.titleBackground);
                     this.title.select('rect').attr('fill', this.titleBackground);
                 }
             },
             'options.titleFontSize': {
                 handler() {
                     this.titleFontSize = this.options.titleFontSize;
-                    console.log('font-size', this.titleFontSize);
                     this.titleTextElem.attr('font-size', `${this.titleFontSize}px`);
                 }
             },
             'options.titleFontFamily': {
                 handler() {
-                    // todo
+                    this.titleFontFamily = this.options.titleFontFamily;
+                    this.titleTextElem.attr('font-family', this.titleFontFamily);
                 }
             },
             'options.titleFontColor': {
                 handler() {
-                    // todo
+                    this.titleFontColor = this.options.titleFontColor;
+                    this.titleTextElem
+                        .attr('stroke', this.titleFontColor)
+                        .attr('fill', this.titleFontColor);
+                }
+            },
+            'options.showLegend': {
+                handler() {
+                    this.showLegend = this.options.showLegend;
+                    if (this.options.showLegend) {
+                        this.legend.attr('style', 'display: block');
+                    } else {
+                        this.legend.attr('style', 'display: none');
+                    }
                 }
             }
         },
@@ -128,8 +142,7 @@
                     .attr('transform', `translate(${this.svgWidth / 2}, ${this.svgHeight / 2})`);
                 // 添加图表标题
                 this.title = this.svg.append('g')
-                    .attr('transform', 'translate(0,0)')
-                    .attr('style', 'display: none');     // 默认不显示
+                    .attr('transform', 'translate(0,0)');
                 // 标题背景框
                 this.titleRectElem = this.title.append('rect')
                     .attr('class', 'title')
@@ -214,9 +227,47 @@
                         const size = d.data.name.length <= 10 ? 0.5 : 0.5 * 10 / d.data.name.length;
                         return `${size}em`;
                     });
+                this.renderLegend();
+            },
+
+            // 绘制图例
+            renderLegend() {
+                const color = d3.scaleOrdinal() // 序数比例尺，用于domain和range均为离散的情况
+                    .domain(this.root.descendants().filter(d => d.depth <= 1).map(d => d.data.name))
+                    .range(d3.schemeCategory10); // d3默认的一个配色方案
+
+                const fill = d => { // 用于返回扇环的颜色
+                    if (d.depth === 0)
+                        return color(d.data.name);
+                    let node = d;
+                    while (node.depth > 1)
+                        node = node.parent;
+                    return color(node.data.name);
+                };
+
+                let firstRectX = 920, firstRectY = 540; //第一个矩形的坐标
+                this.legend = this.svg.append('g');
+
+                this.legend.selectAll('.legendRect')
+                    .data(this.root.descendants().filter(d => d.depth === 1))
+                    .join('rect')
+                    .attr('class', 'legendRect')
+                    .attr('fill', fill)
+                    .attr('x', firstRectX)
+                    .attr('y', (d, i) => firstRectY + i * 20)
+                    .attr('width', 10)
+                    .attr('height', 10);
+
+                this.legend.selectAll('.legendText')
+                    .data(this.root.descendants().filter(d => d.depth === 1))
+                    .join('text')
+                    .attr('class', 'legendText')
+                    .attr('x', firstRectX + 15)
+                    .attr('y', (d, i) => firstRectY + i * 20 + 12)
+                    .text(d => d.data.name);
+
             },
         }
-
     };
 </script>
 <style scoped>

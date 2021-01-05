@@ -20,8 +20,32 @@
                             </div>
                         </el-scrollbar>
                     </el-tab-pane>
+                    <!-- 根据需要还可以添加 tooltip, 颜色列表....等 -->
+                    <el-tab-pane label="图例" name="second">
+                        <el-scrollbar style="height: 100%">
+                            <div class="form-box">
+                                <HForm
+                                        v-if="isInited"
+                                        :formData="formConfigLegend.formData"
+                                        :items="formConfigLegend.items"
+                                        @eventdone="eventDone"
+                                ></HForm>
+                            </div>
+                        </el-scrollbar>
+                    </el-tab-pane>
+                    <el-tab-pane label="图表" name="third">
+                        <el-scrollbar style="height: 100%">
+                            <div class="form-box">
+                                <HForm
+                                        v-if="isInited"
+                                        :formData="formConfigChart.formData"
+                                        :items="formConfigChart.items"
+                                        @eventdone="eventDone"
+                                ></HForm>
+                            </div>
+                        </el-scrollbar>
+                    </el-tab-pane>
                 </el-tabs>
-                <!-- 根据需要还可以添加 tooltip, 颜色列表....等 -->
             </div>
         </TestGrid>
     </div>
@@ -32,6 +56,8 @@
     import HForm from "~/Frame/components/h-form";
     // 下面这里请根据你自己的开发情况import相应组件的配置项
     import settingTitle from "~/Frame/setting-rules/property-setting-sunburst-title";
+    import settingLegend from "~/Frame/setting-rules/property-setting-sunburst-legend";
+    import settingChart from "~/Frame/setting-rules/property-setting-sunburst-chart"
 
     import {cloneDeep} from "lodash";
 
@@ -49,7 +75,7 @@
                 isInited: false,
                 bindConfig: {
                     titleText: "Sunburst",
-                    titleIsShow: false,
+                    titleIsShow: true,
                     titleBackground: "#E3E3E3",
                     titlePosition: "top",
                     titleTextPosition: "center",
@@ -57,10 +83,21 @@
                     titleFontFamily: "Arial",
                     titleFontColor: "#000",
                     // ... 根据需要添加更多
+                    showLegend: true,
+                    charBackground: '#eee',
+                    showTags: true,
                 },
                 formConfigTitle: {
                     formData: {},
                     items: [],
+                },
+                formConfigLegend: {
+                    formData: {},
+                    items: [],
+                },
+                formConfigChart: {
+                    formData: {},
+                    items: []
                 },
                 // ...
             };
@@ -85,6 +122,8 @@
             initFormSetting() {
                 // 初始化表单设置
                 this.buildPropertyGroup(settingTitle, "formConfigTitle");
+                this.buildPropertyGroup(settingLegend, "formConfigLegend");
+                this.buildPropertyGroup(settingChart, "formConfigChart");
 
                 this.$nextTick(() => {
                     this.isInited = true;
