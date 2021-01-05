@@ -31,7 +31,7 @@ export default {
     type: 'number',
     title: '文字字号',
     default: 16,
-    values: [10,50],
+    values: [10,36],
   },
   titleFontFamily: {
     type: 'enum',

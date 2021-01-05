@@ -15,9 +15,9 @@ module.exports = {
             config
                 .entry("app")
                 .clear()
-                .add("./tests/main.ts");
+                .add("./Frame/main.ts");
             options.resolve.alias.set("@/", resolve("src/"));
-            options.resolve.alias.set("~/tests", resolve("tests/"));
+            options.resolve.alias.set("~/Frame", resolve("Frame/"));
         });
         options.when(process.env.NODE_ENV === "production", config => {
             config

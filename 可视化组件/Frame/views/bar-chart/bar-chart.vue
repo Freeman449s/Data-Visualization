@@ -101,14 +101,14 @@
 </template>
 <script>
     import {BarChart} from '@/index'
-    import TestGrid from '~/tests/components/test-grid';
-    import HForm from '~/tests/components/h-form';
-    import settingTitle from '~/tests/setting-rules/property-setting-barchart-title';
-    import settingLegend from '~/tests/setting-rules/property-setting-barchart-legend';
-    import settingXAxis from '~/tests/setting-rules/property-setting-barchart-xaxis';
-    import settingYAxis from '~/tests/setting-rules/property-setting-barchart-yaxis';
-    import settingTooltip from '~/tests/setting-rules/property-setting-barchart-tooltip';
-    import settingChart from '~/tests/setting-rules/property-setting-barchart-chart';
+    import TestGrid from '~/Frame/components/test-grid';
+    import HForm from '~/Frame/components/h-form';
+    import settingTitle from '~/Frame/setting-rules/property-setting-barchart-title';
+    import settingLegend from '~/Frame/setting-rules/property-setting-barchart-legend';
+    import settingXAxis from '~/Frame/setting-rules/property-setting-barchart-xaxis';
+    import settingYAxis from '~/Frame/setting-rules/property-setting-barchart-yaxis';
+    import settingTooltip from '~/Frame/setting-rules/property-setting-barchart-tooltip';
+    import settingChart from '~/Frame/setting-rules/property-setting-barchart-chart';
 
 
     import {cloneDeep} from 'lodash';

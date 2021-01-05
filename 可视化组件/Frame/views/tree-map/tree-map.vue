@@ -28,10 +28,10 @@
 </template>
 <script>
 import { TreeMap } from "@/index";
-import TestGrid from "~/tests/components/test-grid";
-import HForm from "~/tests/components/h-form";
+import TestGrid from "~/Frame/components/test-grid";
+import HForm from "~/Frame/components/h-form";
 // 下面这里请根据你自己的开发情况import相应组件的配置项
-import settingTitle from "~/tests/setting-rules/property-setting-treemap-title";
+import settingTitle from "~/Frame/setting-rules/property-setting-treemap-title";
 
 import { cloneDeep } from "lodash";
 

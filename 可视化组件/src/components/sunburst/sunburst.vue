@@ -17,13 +17,15 @@
                 title: null,
                 titleText: 'Sunburst',
                 titleRectWidth: 460,
-                titleRectHeight: 40,
+                titleRectHeight: 60,
                 titleRectX: 180,
                 titleRectY: 25,
                 titleBackground: '#E3E3E3',
                 titleFontSize: 16,
                 titleFontFamily: 'Arial',
                 titleFontColor: '#000',
+                titleTextElem: null,
+                titleRectElem: null,
                 width: 460,
                 height: 460,
                 chartPadding: {top: 300, right: 300, bottom: 300, left: 300},
@@ -75,12 +77,15 @@
             'options.titleBackground': {
                 handler() {
                     this.titleBackground = this.options.titleBackground;
+                    console.log('background', this.titleBackground);
                     this.title.select('rect').attr('fill', this.titleBackground);
                 }
             },
             'options.titleFontSize': {
                 handler() {
-                    // todo
+                    this.titleFontSize = this.options.titleFontSize;
+                    console.log('font-size', this.titleFontSize);
+                    this.titleTextElem.attr('font-size', `${this.titleFontSize}px`);
                 }
             },
             'options.titleFontFamily': {
@@ -102,7 +107,7 @@
             initSunburst() {
                 // 在这里编写初始化图表的代码，以下代码仅供参考，均可调整
                 // 可以使用d3绘制可视化图表，具体可参考 bar chart 示例和 README.md 中的链接
-                console.log(this.options);
+                // console.log(this.options);
 
                 // 指定图表的宽高
                 this.width = 1080 - this.chartPadding.right - this.chartPadding.left;
@@ -126,7 +131,7 @@
                     .attr('transform', 'translate(0,0)')
                     .attr('style', 'display: none');     // 默认不显示
                 // 标题背景框
-                this.title.append('rect')
+                this.titleRectElem = this.title.append('rect')
                     .attr('class', 'title')
                     .attr('width', 720)
                     .attr('height', `${this.titleRectHeight}`)
@@ -135,10 +140,10 @@
                     .attr('y', this.titleRectY)
                     .attr('rect-anchor', 'middle');
                 // 标题文本
-                this.title.append('text')
+                this.titleTextElem = this.title.append('text')
                     .text(this.titleText)
                     .attr('x', `${this.svgWidth / 2}`)
-                    .attr('y', this.titleRectY * 2)
+                    .attr('y', this.titleRectY + this.titleRectHeight / 2 + 8)
                     .attr('text-anchor', 'middle')
                     .attr('fill', '#000');
 
@@ -146,24 +151,24 @@
 
             // 读入并格式化数据
             readAndRender() {
-                console.log('readData');
+                // console.log('readData');
                 d3.json('static/data/games.json').then(data => { // 当前目录为index所在目录
-                    console.log('then');
+                    // console.log('then');
                     this.root = d3.partition().size([2 * Math.PI, Math.min(this.svgHeight, this.svgWidth) * 0.55])(
                         d3.hierarchy(data)
                             .sum(d => d.popularity)
                             .sort((a, b) => b.popularity - a.popularity));
-                    console.log('root');
-                    console.log(this.root);
+                    // console.log('root');
+                    // console.log(this.root);
                     this.render();
                 });
             },
 
             // 绘制Sunburst
             render() {
-                console.log('render');
-                console.log('root');
-                console.log(this.root);
+                // console.log('render');
+                // console.log('root');
+                // console.log(this.root);
 
                 const arc = d3.arc() // 指定path的d属性，用于绘制扇环
                     .startAngle(d => d.x0) // 弧度制

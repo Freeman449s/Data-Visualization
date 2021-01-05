@@ -40,8 +40,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "src/**/**/*.vue",
-    "tests/*.ts",
-    "tests/*.tsx",
+    "Frame/*.ts",
+    "Frame/*.tsx",
     "src/vis-libs/helper/watcher.js", "src/base/utils/smooth-curve.js"
   ],
   "exclude": [
