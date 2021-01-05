@@ -35,6 +35,9 @@
                 svgHeight: 720,
                 legend: null,
                 showLegend: false,
+                chartBackground: '#EEE',
+                showTags: true,
+                tagColor: '#000000',
             };
         },
         // https://cn.vuejs.org/v2/api/#mounted
@@ -71,7 +74,8 @@
                 handler() {
                     if (this.options.titleIsShow) {
                         this.title.attr('style', 'display: block');
-                    } else {
+                    }
+                    else {
                         this.title.attr('style', 'display: none');
                     }
                 }
@@ -98,7 +102,6 @@
                 handler() {
                     this.titleFontColor = this.options.titleFontColor;
                     this.titleTextElem
-                        .attr('stroke', this.titleFontColor)
                         .attr('fill', this.titleFontColor);
                 }
             },
@@ -107,9 +110,37 @@
                     this.showLegend = this.options.showLegend;
                     if (this.options.showLegend) {
                         this.legend.attr('style', 'display: block');
-                    } else {
+                    }
+                    else {
                         this.legend.attr('style', 'display: none');
                     }
+                }
+            },
+            'options.chartBackground': {
+                handler() {
+                    this.chartBackground = this.options.chartBackground;
+                    this.svg.attr('style', `background: ${this.options.chartBackground}`);
+                }
+            },
+            'options.showTags': {
+                handler() {
+                    this.showTags = this.options.showTags;
+                    if (this.showTags) {
+                        this.g.selectAll('.dataText')
+                            .attr('style', 'display: block');
+                    }
+                    else {
+                        this.g.selectAll('.dataText')
+                            .attr('style', 'display: none');
+                    }
+                }
+            },
+            'options.tagColor': {
+                handler() {
+                    this.tagColor = this.options.tagColor;
+                    console.log('tag color', this.tagColor);
+                    this.g.selectAll('.dataText')
+                        .attr('fill', this.tagColor);
                 }
             }
         },
@@ -263,7 +294,8 @@
                     .join('text')
                     .attr('class', 'legendText')
                     .attr('x', firstRectX + 15)
-                    .attr('y', (d, i) => firstRectY + i * 20 + 12)
+                    .attr('y', (d, i) => firstRectY + i * 20 + 10)
+                    .attr('font-size', '0.8em')
                     .text(d => d.data.name);
 
             },

@@ -84,8 +84,9 @@
                     titleFontColor: "#000",
                     // ... 根据需要添加更多
                     showLegend: true,
-                    charBackground: '#eee',
+                    chartBackground: '#eee',
                     showTags: true,
+                    tagColor: '#000000',
                 },
                 formConfigTitle: {
                     formData: {},
@@ -139,7 +140,8 @@
                             property,
                             group[property].default
                         );
-                    } else {
+                    }
+                    else {
                         // console.error('build error', group, property)
                     }
                 });

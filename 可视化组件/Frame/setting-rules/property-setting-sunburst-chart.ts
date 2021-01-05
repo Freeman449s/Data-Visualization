@@ -4,9 +4,14 @@ export default {
         title: '背景色',
         default: '#eee'
     },
-    labelIsShow: {
+    showTags: {
         type: 'boolean',
         title: '显示数据标签',
         default: true
+    },
+    tagColor: {
+        type: 'color',
+        title: '数据标签颜色',
+        default: '#000000'
     },
 };
