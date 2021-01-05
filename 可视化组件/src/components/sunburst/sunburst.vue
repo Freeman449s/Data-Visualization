@@ -18,11 +18,19 @@
                 titleText: 'Sunburst',
                 titleRectWidth: 460,
                 titleRectHeight: 40,
+                titleRectX: 180,
+                titleRectY: 25,
+                titleBackground: '#E3E3E3',
+                titleFontSize: 16,
+                titleFontFamily: 'Arial',
+                titleFontColor: '#000',
                 width: 460,
                 height: 460,
-                chartPadding: {top: 80, right: 80, bottom: 80, left: 80},
+                chartPadding: {top: 300, right: 300, bottom: 300, left: 300},
                 data: [],
                 root: null, // 层级数据根
+                svgWidth: 1080,
+                svgHeight: 720,
             };
         },
         // https://cn.vuejs.org/v2/api/#mounted
@@ -30,8 +38,7 @@
             // 这里会在实例被挂载后调用
             // 初始化图表
             this.initSunburst();
-            this.readData();
-            this.render();
+            this.readAndRender();
         },
         // https://cn.vuejs.org/v2/api/#computed
         // https://cn.vuejs.org/v2/guide/computed.html#%E5%9F%BA%E7%A1%80%E4%BE%8B%E5%AD%90
@@ -65,7 +72,27 @@
                     }
                 }
             },
-            // 请根据组件需要补充...
+            'options.titleBackground': {
+                handler() {
+                    this.titleBackground = this.options.titleBackground;
+                    this.title.select('rect').attr('fill', this.titleBackground);
+                }
+            },
+            'options.titleFontSize': {
+                handler() {
+                    // todo
+                }
+            },
+            'options.titleFontFamily': {
+                handler() {
+                    // todo
+                }
+            },
+            'options.titleFontColor': {
+                handler() {
+                    // todo
+                }
+            }
         },
         // https://cn.vuejs.org/v2/api/#methods
         methods: {
@@ -78,22 +105,22 @@
                 console.log(this.options);
 
                 // 指定图表的宽高
-                this.width = 700 - this.chartPadding.right - this.chartPadding.left - 180;
-                this.height = 700 - this.chartPadding.bottom - this.chartPadding.top - 80;
+                this.width = 1080 - this.chartPadding.right - this.chartPadding.left;
+                this.height = 720 - this.chartPadding.bottom - this.chartPadding.top;
 
                 d3.select('#sunburst-container')
-                    .style('width', '720px')
+                    .style('width', '1080px')
                     .style('height', '720px');
 
                 // 添加svg
                 this.svg = d3.select('#sunburst-container').append('svg')
                     .attr('style', 'background: #eee')
-                    .attr('width', 700)
-                    .attr('height', 700);
+                    .attr('width', this.svgWidth)
+                    .attr('height', this.svgHeight);
                 // 添加g标签
                 this.g = this.svg.append('g')
                     .attr('class', 'chart')  // 图表部分
-                    .attr('transform', `translate(${this.chartPadding.left + 40}, ${this.chartPadding.top + 40})`);
+                    .attr('transform', `translate(${this.svgWidth / 2}, ${this.svgHeight / 2})`);
                 // 添加图表标题
                 this.title = this.svg.append('g')
                     .attr('transform', 'translate(0,0)')
@@ -101,40 +128,49 @@
                 // 标题背景框
                 this.title.append('rect')
                     .attr('class', 'title')
-                    .attr('width', 700)
+                    .attr('width', 720)
                     .attr('height', `${this.titleRectHeight}`)
                     .attr('fill', '#E3E3E3')
-                    .attr('x', '0')
-                    .attr('y', '0');
+                    .attr('x', this.titleRectX)
+                    .attr('y', this.titleRectY)
+                    .attr('rect-anchor', 'middle');
                 // 标题文本
                 this.title.append('text')
                     .text(this.titleText)
-                    .attr('x', 350)
-                    .attr('y', 25)
+                    .attr('x', `${this.svgWidth / 2}`)
+                    .attr('y', this.titleRectY * 2)
                     .attr('text-anchor', 'middle')
                     .attr('fill', '#000');
 
             },
 
             // 读入并格式化数据
-            readData() {
-                d3.json('games.json').then(data => {
-                    this.root = d3.partition().size([2 * Math.PI, this.height / 1.6])(
+            readAndRender() {
+                console.log('readData');
+                d3.json('static/data/games.json').then(data => { // 当前目录为index所在目录
+                    console.log('then');
+                    this.root = d3.partition().size([2 * Math.PI, Math.min(this.svgHeight, this.svgWidth) * 0.55])(
                         d3.hierarchy(data)
                             .sum(d => d.popularity)
                             .sort((a, b) => b.popularity - a.popularity));
+                    console.log('root');
+                    console.log(this.root);
+                    this.render();
                 });
             },
 
             // 绘制Sunburst
             render() {
+                console.log('render');
+                console.log('root');
+                console.log(this.root);
+
                 const arc = d3.arc() // 指定path的d属性，用于绘制扇环
                     .startAngle(d => d.x0) // 弧度制
                     .endAngle(d => d.x1)
-                    .innerRadius(d => d.y0)
+                    .innerRadius(d => d.y0 + 1)
                     .outerRadius(d => d.y1)
-                    .padAngle(0.2 / 180 * Math.PI)
-                    .padRadius(0.1);
+                    .padAngle(0.2 / 180 * Math.PI);
 
                 const color = d3.scaleOrdinal() // 序数比例尺，用于domain和range均为离散的情况
                     .domain(this.root.descendants().filter(d => d.depth <= 1).map(d => d.data.name))
@@ -163,13 +199,16 @@
                     .text(d => d.data.name)
                     .attr('text-anchor', 'middle')
                     .attr('transform', d => {
-                        let angle = (d.x0 + d.x1) / 2;
+                        const angle = (d.x0 + d.x1) / 2 * 180 / Math.PI;
                         const displacement = (d.y0 + d.y1) / 2;
-                        angle = angle < 180 ? angle + 1 : angle - 1; // 角度微调，确保文本居中
+                        const adjustedAngle = angle < 180 ? angle + 1 : angle - 1; // 角度微调，确保文本居中
                         // rotate中0°是竖直的，因而需要减去90°
-                        return `rotate(${angle - 90} translate(${displacement}, ${0}) rotate(${angle < 180 ? 0 : 180}))`;
-                    }); // todo 调整字体大小
-
+                        return `rotate(${adjustedAngle - 90}) translate(${displacement}, ${0}) rotate(${angle < 180 ? 0 : 180})`;
+                    })
+                    .attr('font-size', d => {
+                        const size = d.data.name.length <= 10 ? 0.5 : 0.5 * 10 / d.data.name.length;
+                        return `${size}em`;
+                    });
             },
         }
 

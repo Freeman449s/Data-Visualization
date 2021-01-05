@@ -15,18 +15,18 @@ export default {
     title: '标题背景色',
     default: '#E3E3E3',
   },
-  titlePosition: {
+  /*titlePosition: {
     type: 'enum',
     title: '标题位置',
     default: 'top',
     values: ['top','bottom','left','right'],
-  },
-  titleTextPosition: {
+  },*/
+  /*titleTextPosition: {
     type: 'enum',
     title: '文字对齐方式',
     default: 'center',
     values: ['left','center','right'],
-  },
+  },*/
   titleFontSize: {
     type: 'number',
     title: '文字字号',
