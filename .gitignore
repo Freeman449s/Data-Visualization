@@ -67,6 +67,7 @@ fabric.properties
 
 # 依赖包
 node_modules
+
 # JetBrains
 .idea
 venv

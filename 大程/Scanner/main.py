@@ -81,7 +81,8 @@ def analyzeLine(line: str, moduleObj: Module, modules: list) -> None:
         while line[endIndex] != " ":
             endIndex += 1  # 左闭右开
         moduleName = line[startIndex:endIndex].split(".")[-1].strip()
-        appendModule(moduleObj, moduleName, modules)
+        if len(moduleName) > 0:
+            appendModule(moduleObj, moduleName, modules)
     else:
         startIndex = line.find("import")
         if startIndex != 0:
@@ -101,7 +102,8 @@ def analyzeLine(line: str, moduleObj: Module, modules: list) -> None:
             while endIndex < len(line) and line[endIndex] != " " and line[endIndex] != "," and line[endIndex] != "\n":
                 endIndex += 1
             moduleName = line[startIndex:endIndex].split(".")[-1].strip()
-            appendModule(moduleObj, moduleName, modules)
+            if len(moduleName) > 0:
+                appendModule(moduleObj, moduleName, modules)
             startIndex = endIndex  # 将startIndex调整至下一次循环的起始位置
 
 
