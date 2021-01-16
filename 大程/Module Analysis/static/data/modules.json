@@ -1,0 +1,363 @@
+{
+  "links": [
+    {
+      "source": 0,
+      "target": 1
+    },
+    {
+      "source": 0,
+      "target": 2
+    },
+    {
+      "source": 0,
+      "target": 3
+    },
+    {
+      "source": 0,
+      "target": 4
+    },
+    {
+      "source": 0,
+      "target": 5
+    },
+    {
+      "source": 0,
+      "target": 6
+    },
+    {
+      "source": 3,
+      "target": 11
+    },
+    {
+      "source": 3,
+      "target": 2
+    },
+    {
+      "source": 3,
+      "target": 4
+    },
+    {
+      "source": 3,
+      "target": 1
+    },
+    {
+      "source": 3,
+      "target": 6
+    },
+    {
+      "source": 6,
+      "target": 11
+    },
+    {
+      "source": 6,
+      "target": 4
+    },
+    {
+      "source": 7,
+      "target": 1
+    },
+    {
+      "source": 7,
+      "target": 2
+    },
+    {
+      "source": 7,
+      "target": 3
+    },
+    {
+      "source": 7,
+      "target": 4
+    },
+    {
+      "source": 7,
+      "target": 5
+    },
+    {
+      "source": 7,
+      "target": 6
+    },
+    {
+      "source": 7,
+      "target": 8
+    },
+    {
+      "source": 9,
+      "target": 10
+    }
+  ],
+  "nodes": [
+    {
+      "index": 0,
+      "name": "Algorithm1",
+      "nLines": 44,
+      "imports": [
+        {
+          "index": 1,
+          "name": "librosa"
+        },
+        {
+          "index": 2,
+          "name": "pygame"
+        },
+        {
+          "index": 3,
+          "name": "Player"
+        },
+        {
+          "index": 4,
+          "name": "time"
+        },
+        {
+          "index": 5,
+          "name": "numpy"
+        },
+        {
+          "index": 6,
+          "name": "PrintBeats"
+        }
+      ],
+      "importedBy": []
+    },
+    {
+      "index": 1,
+      "name": "librosa",
+      "nLines": 0,
+      "imports": [],
+      "importedBy": [
+        {
+          "index": 0,
+          "name": "Algorithm1"
+        },
+        {
+          "index": 3,
+          "name": "Player"
+        },
+        {
+          "index": 7,
+          "name": "Algorithm2"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "name": "pygame",
+      "nLines": 0,
+      "imports": [],
+      "importedBy": [
+        {
+          "index": 0,
+          "name": "Algorithm1"
+        },
+        {
+          "index": 3,
+          "name": "Player"
+        },
+        {
+          "index": 7,
+          "name": "Algorithm2"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "name": "Player",
+      "nLines": 18,
+      "imports": [
+        {
+          "index": 11,
+          "name": "threading"
+        },
+        {
+          "index": 2,
+          "name": "pygame"
+        },
+        {
+          "index": 4,
+          "name": "time"
+        },
+        {
+          "index": 1,
+          "name": "librosa"
+        },
+        {
+          "index": 6,
+          "name": "PrintBeats"
+        }
+      ],
+      "importedBy": [
+        {
+          "index": 0,
+          "name": "Algorithm1"
+        },
+        {
+          "index": 7,
+          "name": "Algorithm2"
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "name": "time",
+      "nLines": 0,
+      "imports": [],
+      "importedBy": [
+        {
+          "index": 0,
+          "name": "Algorithm1"
+        },
+        {
+          "index": 3,
+          "name": "Player"
+        },
+        {
+          "index": 6,
+          "name": "PrintBeats"
+        },
+        {
+          "index": 7,
+          "name": "Algorithm2"
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "name": "numpy",
+      "nLines": 0,
+      "imports": [],
+      "importedBy": [
+        {
+          "index": 0,
+          "name": "Algorithm1"
+        },
+        {
+          "index": 7,
+          "name": "Algorithm2"
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "name": "PrintBeats",
+      "nLines": 21,
+      "imports": [
+        {
+          "index": 11,
+          "name": "threading"
+        },
+        {
+          "index": 4,
+          "name": "time"
+        }
+      ],
+      "importedBy": [
+        {
+          "index": 0,
+          "name": "Algorithm1"
+        },
+        {
+          "index": 3,
+          "name": "Player"
+        },
+        {
+          "index": 7,
+          "name": "Algorithm2"
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "name": "Algorithm2",
+      "nLines": 50,
+      "imports": [
+        {
+          "index": 1,
+          "name": "librosa"
+        },
+        {
+          "index": 2,
+          "name": "pygame"
+        },
+        {
+          "index": 3,
+          "name": "Player"
+        },
+        {
+          "index": 4,
+          "name": "time"
+        },
+        {
+          "index": 5,
+          "name": "numpy"
+        },
+        {
+          "index": 6,
+          "name": "PrintBeats"
+        },
+        {
+          "index": 8,
+          "name": "math"
+        }
+      ],
+      "importedBy": []
+    },
+    {
+      "index": 8,
+      "name": "math",
+      "nLines": 0,
+      "imports": [],
+      "importedBy": [
+        {
+          "index": 7,
+          "name": "Algorithm2"
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "name": "main",
+      "nLines": 8,
+      "imports": [
+        {
+          "index": 10,
+          "name": "os"
+        }
+      ],
+      "importedBy": []
+    },
+    {
+      "index": 10,
+      "name": "os",
+      "nLines": 0,
+      "imports": [],
+      "importedBy": [
+        {
+          "index": 9,
+          "name": "main"
+        }
+      ]
+    },
+    {
+      "index": 11,
+      "name": "threading",
+      "nLines": 0,
+      "imports": [],
+      "importedBy": [
+        {
+          "index": 3,
+          "name": "Player"
+        },
+        {
+          "index": 6,
+          "name": "PrintBeats"
+        }
+      ]
+    },
+    {
+      "index": 12,
+      "name": "easy_install",
+      "nLines": 5,
+      "imports": [],
+      "importedBy": []
+    }
+  ]
+}

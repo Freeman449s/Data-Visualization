@@ -1,0 +1,7 @@
+.d3-tip {
+    color: aliceblue;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 8px;
+    border-radius: 2px;
+    pointer-events: none; /*不监听此元素上的事件*/
+}
