@@ -6,13 +6,33 @@ IGNORE_LIST = ["__pycache__", "_distutils_hack", "pip", "pip-20.3.3.dist-info", 
 
 
 class Module():
-    def __init__(self, name: str):
+    def __init__(self, name: str, index: int):
         self.name = name
+        self.index = index
         self.nLines = 0
         self.imports = []
+        self.importedBy = []
 
     def equals(self, other: Module):
         return self.name == other.name
+
+    def importsModules(self):
+        list = []
+        for imported in self.imports:
+            list.append({
+                "index": imported.index,
+                "name": imported.name
+            })
+        return list
+
+    def importedByModules(self):
+        list = []
+        for importing in self.importedBy:
+            list.append({
+                "index": importing.index,
+                "name": importing.name
+            })
+        return list
 
 
 def main():
@@ -32,6 +52,35 @@ def main():
         for file in files:
             filePath = os.path.join(root, file)
             analyzeFile(filePath, modules)
+    # 填充importedBy列表
+    for module in modules:
+        for imported in module.imports:
+            imported.importedBy.append(module)
+    toJson(modules)
+
+
+def toJson(modules: list) -> None:
+    """
+    利用模块列表生成力导图使用的Json文件\n
+    :param modules: 模块对象列表
+    :return: 无返回值
+    """
+    jsonDict = {}
+    jsonDict["links"] = []
+    jsonDict["nodes"] = []
+    # 添加边
+    for module in modules:
+        for imported in module.imports:
+            jsonDict["links"].append({"source": module.index, "target": imported.index})
+    # 添加节点
+    for module in modules:
+        jsonDict["nodes"].append({
+            "index": module.index,
+            "name": module.name,
+            "nLines": module.nLines,
+            "imports": module.importsModules(),
+            "importedBy": module.importedByModules()
+        })
     return
 
 
@@ -49,7 +98,7 @@ def analyzeFile(path: str, modules: list) -> None:
     moduleName = path.split("\\")[-1].split(".")[0]
     moduleObj = findModule(moduleName, modules)
     if not moduleObj:
-        moduleObj = Module(moduleName)
+        moduleObj = Module(moduleName, len(modules))
         modules.append(moduleObj)
     try:
         with open(path, encoding=guessEncoding(path)) as file:
@@ -117,7 +166,7 @@ def appendModule(moduleObj: Module, imported: str, modules: list) -> None:
     """
     importedObj = findModule(imported, modules)
     if not importedObj:
-        importedObj = Module(imported)
+        importedObj = Module(imported, len(modules))
         modules.append(importedObj)
     moduleObj.imports.append(importedObj)
 
@@ -136,6 +185,11 @@ def findModule(moduleName: str, modules: list) -> any:
 
 
 def guessEncoding(path: str) -> str:
+    """
+    猜测文件的编码方式\n
+    :param path: 文件路径
+    :return: 猜测的编码方式
+    """
     with open(path, "rb") as file:
         content = file.read()
         encoding = chardet.detect(content)["encoding"]
