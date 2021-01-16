@@ -1,5 +1,5 @@
 from __future__ import annotations
-import os, chardet
+import os, chardet, json
 
 IGNORE_LIST = ["__pycache__", "_distutils_hack", "pip", "pip-20.3.3.dist-info", "pkg_resources", "setuptools",
                "setuptools-51.1.1.dist-info"]
@@ -56,14 +56,16 @@ def main():
     for module in modules:
         for imported in module.imports:
             imported.importedBy.append(module)
-    toJson(modules)
+    jsonDict = toJson(modules)
+    with open("modules.json", "w") as file:
+        json.dump(jsonDict, file)
 
 
-def toJson(modules: list) -> None:
+def toJson(modules: list) -> dict:
     """
     利用模块列表生成力导图使用的Json文件\n
     :param modules: 模块对象列表
-    :return: 无返回值
+    :return: 适用于力导图的字典
     """
     jsonDict = {}
     jsonDict["links"] = []
@@ -81,7 +83,7 @@ def toJson(modules: list) -> None:
             "imports": module.importsModules(),
             "importedBy": module.importedByModules()
         })
-    return
+    return jsonDict
 
 
 def analyzeFile(path: str, modules: list) -> None:
