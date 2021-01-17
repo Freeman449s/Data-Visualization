@@ -116,7 +116,8 @@
           "name": "PrintBeats"
         }
       ],
-      "importedBy": []
+      "importedBy": [],
+      "nConnections": 6
     },
     {
       "index": 1,
@@ -136,7 +137,8 @@
           "index": 7,
           "name": "Algorithm2"
         }
-      ]
+      ],
+      "nConnections": 3
     },
     {
       "index": 2,
@@ -156,7 +158,8 @@
           "index": 7,
           "name": "Algorithm2"
         }
-      ]
+      ],
+      "nConnections": 3
     },
     {
       "index": 3,
@@ -193,7 +196,8 @@
           "index": 7,
           "name": "Algorithm2"
         }
-      ]
+      ],
+      "nConnections": 7
     },
     {
       "index": 4,
@@ -217,7 +221,8 @@
           "index": 7,
           "name": "Algorithm2"
         }
-      ]
+      ],
+      "nConnections": 4
     },
     {
       "index": 5,
@@ -233,7 +238,8 @@
           "index": 7,
           "name": "Algorithm2"
         }
-      ]
+      ],
+      "nConnections": 2
     },
     {
       "index": 6,
@@ -262,7 +268,8 @@
           "index": 7,
           "name": "Algorithm2"
         }
-      ]
+      ],
+      "nConnections": 5
     },
     {
       "index": 7,
@@ -298,7 +305,8 @@
           "name": "math"
         }
       ],
-      "importedBy": []
+      "importedBy": [],
+      "nConnections": 7
     },
     {
       "index": 8,
@@ -310,7 +318,8 @@
           "index": 7,
           "name": "Algorithm2"
         }
-      ]
+      ],
+      "nConnections": 1
     },
     {
       "index": 9,
@@ -322,7 +331,8 @@
           "name": "os"
         }
       ],
-      "importedBy": []
+      "importedBy": [],
+      "nConnections": 1
     },
     {
       "index": 10,
@@ -334,7 +344,8 @@
           "index": 9,
           "name": "main"
         }
-      ]
+      ],
+      "nConnections": 1
     },
     {
       "index": 11,
@@ -350,14 +361,16 @@
           "index": 6,
           "name": "PrintBeats"
         }
-      ]
+      ],
+      "nConnections": 2
     },
     {
       "index": 12,
       "name": "easy_install",
       "nLines": 5,
       "imports": [],
-      "importedBy": []
+      "importedBy": [],
+      "nConnections": 0
     }
   ]
 }

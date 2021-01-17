@@ -12,6 +12,7 @@ class Module():
         self.nLines = 0
         self.imports = []
         self.importedBy = []
+        self.nConnections = 0
 
     def equals(self, other: Module):
         return self.name == other.name
@@ -52,10 +53,11 @@ def main():
         for file in files:
             filePath = os.path.join(root, file)
             analyzeFile(filePath, modules)
-    # 填充importedBy列表
-    for module in modules:
+    for module in modules:  # 填充importedBy列表
         for imported in module.imports:
             imported.importedBy.append(module)
+    for module in modules:
+        module.nConnections = len(module.imports) + len(module.importedBy)
     jsonDict = toJson(modules)
     with open("modules.json", "w") as file:
         json.dump(jsonDict, file)
@@ -81,7 +83,8 @@ def toJson(modules: list) -> dict:
             "name": module.name,
             "nLines": module.nLines,
             "imports": module.importsModules(),
-            "importedBy": module.importedByModules()
+            "importedBy": module.importedByModules(),
+            "nConnections": module.nConnections
         })
     return jsonDict
 
