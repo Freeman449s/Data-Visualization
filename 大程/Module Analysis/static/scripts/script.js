@@ -16,6 +16,13 @@ const renderInit = function () {
         .domain([d3.min(nodes, d => d.nConnections), d3.max(nodes, d => d.nConnections)])
         .range([5, 20]);
 
+    svg.append("text")
+        .text("PythonExp")
+        .attr("text-anchor", "middle")
+        .attr("x", width / 2)
+        .attr("y", 100)
+        .attr("font-size", "3em");
+
     lines = svg.selectAll("line").data(links).join("line")
         .attr("stroke", "black")
         .attr("opacity", 0.8)
@@ -45,6 +52,7 @@ const renderInit = function () {
                 .attr("fill", selectedColor);
             paintConnected(d, connectedColor);
             refreshInfoBox(d);
+            boxPopOut();
         });
 
     infoGroup = svg.append("g") //信息提示窗口
@@ -90,6 +98,7 @@ const onDrag = d3.drag()
             .restart(); //重新启动模拟
         paintConnected(d, connectedColor);
         refreshInfoBox(d);
+        boxPopOut();
     })
     .on("drag", function (d) {
         d3.select(this)
@@ -105,6 +114,7 @@ const onDrag = d3.drag()
             .attr("stroke", null);
         simulation.alphaTarget(0);
         paintConnected(d, defaultColor);
+        boxHide();
     });
 
 
@@ -177,11 +187,24 @@ function refreshInfoBox(d) {
         .attr("fill", "#E3E3E3")
         .attr("font-size", "1.5em")
         .attr("transform", `translate(20,${40 + 32 * 3})`);
-    //弹出动画
+}
+
+/**
+ * 信息提示框弹出
+ */
+function boxPopOut() {
     infoGroup.transition()
         .duration(500)
         .attr("transform", `translate(${width - boxWidth},50)`);
+}
 
+/**
+ * 信息提示框隐藏
+ */
+function boxHide() {
+    infoGroup.transition()
+        .duration(500)
+        .attr("transform", `translate(${width},50)`);
 }
 
 /**
